@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:logger/logger.dart';
+
+var logger = Logger(); // Declaracion del log para poder usarlo
 
 
 void main() {
@@ -13,6 +16,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    logger.i("Logger is working!"); // Colocamos el log antes de iniciar la aplicacion
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
