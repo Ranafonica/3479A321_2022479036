@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    logger.i("Logger is working!"); // Colocamos el log antes de iniciar la aplicacion
+    logger.i("Logger is working!"); // Colocamos el log antes de iniciar la aplicacion (My App)
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
@@ -106,6 +106,7 @@ class _MyHomePageState extends State<MyHomePage> {
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
+    logger.i("Logger in MyHomePage is working!"); // Colocamos el log antes de iniciar la aplicacion (MyHomePage)
     return Scaffold(
       appBar: AppBar(
         // TRY THIS: Try changing the color here to a specific color (to
