@@ -41,58 +41,62 @@ class _MyHomePageState extends State<MyHomePage> {
 
 @override
 Widget build(BuildContext context) {
-  return Scaffold(
-    appBar: AppBar(
-      title: const Text('Contador Flutter'),
-    ),
-    body: Center(
-      child: Card(
-        margin: const EdgeInsets.all(16),
-        elevation: 8,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Text(
-                'Flutter es un SDK de UI de código abierto creado por Google.',
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 16),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Contador Flutter'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Card(
+          child: Center(
+            child: Card(
+              elevation: 8,
+              margin: const EdgeInsets.all(16),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Text(
+                      'Flutter es un SDK de UI de código abierto creado por Google.',
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 20),
+                    Text(
+                      'Contador: $_counter',
+                      style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 20),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        ElevatedButton(
+                          onPressed: _incrementCounter,
+                          child: const Text('+'),
+                        ),
+                        ElevatedButton(
+                          onPressed: _decrementCounter,
+                          child: const Text('-'),
+                        ),
+                        ElevatedButton(
+                          onPressed: _resetCounter,
+                          child: const Text('Reset'),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 20),
+                    ElevatedButton(
+                      onPressed: _navigateByCounter,
+                      child: const Text('Ir a pantalla según contador'),
+                    ),
+                  ],
+                ),
               ),
-              const SizedBox(height: 20),
-              Text(
-                'Contador: $_counter',
-                style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  ElevatedButton(
-                    onPressed: _incrementCounter,
-                    child: const Text('+'),
-                  ),
-                  ElevatedButton(
-                    onPressed: _decrementCounter,
-                    child: const Text('-'),
-                  ),
-                  ElevatedButton(
-                    onPressed: _resetCounter,
-                    child: const Text('Reset'),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: _navigateByCounter,
-                child: const Text('Ir a pantalla según contador'),
-              ),
-            ],
+            ),
           ),
         ),
       ),
-    ),
-  );
-}
+    );
+  }
 }
