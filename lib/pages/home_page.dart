@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
-import 'package:flutter_svg/svg.dart'; 
+//import 'package:flutter_svg/svg.dart'; 
 
 var logger = Logger(); // Declaracion del log para poder usarlo
 
@@ -31,13 +31,13 @@ class _MyHomePageState extends State<MyHomePage> {
       _counter=0;
     });
   }
-  void _navigateByCounter() {
+  /*void _navigateByCounter() {
   if (_counter % 2 == 0) {
     Navigator.pushNamed(context, '/list');
   } else {
     Navigator.pushNamed(context, '/about');
   }
-}
+}*/
 
 @override
 Widget build(BuildContext context) {
