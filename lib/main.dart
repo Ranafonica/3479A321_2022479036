@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:logger/logger.dart';
 import 'pages/home_page.dart';
+import 'list_content.dart';
 var logger = Logger(); // Declaracion del log para poder usarlo
 
 
@@ -38,6 +39,9 @@ class MyApp extends StatelessWidget {
         ),
       ),
       home: const MyHomePage(title:'Flutter Demo Home Page'),
+      routes: {
+        '/list': (context) => const ListContent(),
+      },
     );
   }
 }
