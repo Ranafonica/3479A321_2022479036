@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:flutter_svg/svg.dart'; 
 
 var logger = Logger(); // Declaracion del log para poder usarlo
 
@@ -21,36 +21,78 @@ class _MyHomePageState extends State<MyHomePage> {
       _counter++;
     });
   }
+  void _decrementCounter() {
+    setState(() {
+      _counter--;
+    });
+  }
+  void _resetCounter() {
+    setState(() {
+      _counter=0;
+    });
+  }
+  void _navigateByCounter() {
+  if (_counter % 2 == 0) {
+    Navigator.pushNamed(context, '/list');
+  } else {
+    Navigator.pushNamed(context, '/about');
+  }
+}
 
-  @override
-  Widget build(BuildContext context) {
-    logger.i("Logger in MyHomePage is working!"); // Colocamos el log antes de iniciar la aplicacion (MyHomePage)
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            SvgPicture.asset(
-              "assets/icons/moon.svg",
-              semanticsLabel: 'Dart Logo',
-            ),
-            const Text('You have pushed the button this many times:'),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
+@override
+Widget build(BuildContext context) {
+  return Scaffold(
+    appBar: AppBar(
+      title: const Text('Contador Flutter'),
+    ),
+    body: Center(
+      child: Card(
+        margin: const EdgeInsets.all(16),
+        elevation: 8,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Text(
+                'Flutter es un SDK de UI de código abierto creado por Google.',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 16),
+              ),
+              const SizedBox(height: 20),
+              Text(
+                'Contador: $_counter',
+                style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  ElevatedButton(
+                    onPressed: _incrementCounter,
+                    child: const Text('+'),
+                  ),
+                  ElevatedButton(
+                    onPressed: _decrementCounter,
+                    child: const Text('-'),
+                  ),
+                  ElevatedButton(
+                    onPressed: _resetCounter,
+                    child: const Text('Reset'),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: _navigateByCounter,
+                child: const Text('Ir a pantalla según contador'),
+              ),
+            ],
+          ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.cloud),
-      ),
-    );
-  }
+    ),
+  );
+}
 }
