@@ -21,6 +21,12 @@ class ListContent extends StatelessWidget {
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
+                Navigator.pushNamed(context, '/about');
+              },
+              child: const Text('Ir a About'),
+            ),
+            ElevatedButton(
+              onPressed: () {
                 Navigator.pop(context);
               },
               child: const Text('Volver'),
