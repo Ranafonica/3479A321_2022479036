@@ -87,8 +87,10 @@ Widget build(BuildContext context) {
                     ),
                     const SizedBox(height: 20),
                     ElevatedButton(
-                      onPressed: _navigateByCounter,
-                      child: const Text('Ir a pantalla según contador'),
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/list');
+                      },
+                      child: const Text('Ir a Lista'),
                     ),
                   ],
                 ),
