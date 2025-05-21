@@ -45,6 +45,40 @@ class _MyHomePageState extends State<MyHomePage> {
 
 @override
 void initState() {
+  super.initState();
+  logger.i('initState');
+}
+
+@override
+void didChangeDependencies() {
+  super.didChangeDependencies();
+  logger.i('didChangeDependencies');
+}
+
+@override
+void didUpdateWidget(covariant MyHomePage oldWidget) {
+  super.didUpdateWidget(oldWidget);
+  logger.i('didUpdateWidget');
+}
+
+@override
+void deactivate() {
+  super.deactivate();
+  logger.i('deactivate');
+}
+
+@override
+void dispose() {
+  super.dispose();
+  logger.i('dispose');
+}
+
+@override
+void reassemble() {
+  super.reassemble();
+  logger.i('reassemble (hot reload)');
+}
+
 @override
 Widget build(BuildContext context) {
   logger.i('build');
