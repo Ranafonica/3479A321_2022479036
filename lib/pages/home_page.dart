@@ -44,7 +44,9 @@ class _MyHomePageState extends State<MyHomePage> {
 }*/
 
 @override
+@override
 Widget build(BuildContext context) {
+  logger.i('build');
     return Scaffold(
       appBar: AppBar(
         title: const Text('Contador Flutter'),
