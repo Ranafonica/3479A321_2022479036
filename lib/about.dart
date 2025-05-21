@@ -1,30 +1,48 @@
 import 'package:flutter/material.dart';
+import 'provider/app_data.dart';
+import 'package:provider/provider.dart';
 
 class About extends StatelessWidget {
   const About({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final appData = Provider.of<AppData>(context);
+
+    final nameController = TextEditingController(text: appData.userName);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Sobre la App'),
       ),
-      body: Center(
+      body: Padding(
+        padding: const EdgeInsets.all(20.0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Padding(
-              padding: EdgeInsets.all(16.0),
-              child: Text(
-                'Esta es una aplicacion de ejemplo desarrollada en Flutter',
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 16),
-              ),
+            const Text('Editar nombre de usuario:'),
+            TextField(
+              controller: nameController,
+              onSubmitted: (value) {
+                appData.setUserName(value);
+              },
+            ),
+            const SizedBox(height: 20),
+            Row(
+              children: [
+                const Text('Permitir botón Reset:'),
+                Switch(
+                  value: appData.allowReset,
+                  onChanged: (value) {
+                    appData.setAllowReset(value);
+                  },
+                ),
+              ],
             ),
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                Navigator.pop(context); // Vuelve a la pantalla anterior
+                Navigator.pop(context);
               },
               child: const Text('Volver'),
             ),
@@ -33,4 +51,5 @@ class About extends StatelessWidget {
       ),
     );
   }
+
 }

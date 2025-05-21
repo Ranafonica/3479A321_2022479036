@@ -92,10 +92,10 @@ Widget build(BuildContext context) {
                     ),
                     const SizedBox(height: 20),
                     Text(
-                      'Contador: ${context.watch<AppData>().counter}',
-                      style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                      'Hola, ${context.watch<AppData>().userName}',
+                      style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
                     ),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 12),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
@@ -108,17 +108,19 @@ Widget build(BuildContext context) {
                           child: const Text('-'),
                         ),
                         ElevatedButton(
-                          onPressed: () => context.read<AppData>().resetCounter(),
+                          onPressed: context.watch<AppData>().allowReset
+                              ? () => context.read<AppData>().resetCounter()
+                              : null,
                           child: const Text('Reset'),
-                        ),
+                        ), // Esto hace que el botón quede deshabilitado automáticamente si allowReset es false.
                       ],
                     ),
                     const SizedBox(height: 20),
                     ElevatedButton(
                       onPressed: () {
-                        Navigator.pushNamed(context, '/list');
+                        Navigator.pushNamed(context, '/about');
                       },
-                      child: const Text('Ir a Lista'),
+                      child: const Text('Ir a About'),
                     ),
                   ],
                 ),

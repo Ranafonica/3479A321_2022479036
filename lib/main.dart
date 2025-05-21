@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 //import 'package:google_fonts/google_fonts.dart';
 import 'package:logger/logger.dart';
 import 'pages/home_page.dart';
-//import 'list_content.dart';
-//import 'about.dart';
+import 'list_content.dart';
+import 'about.dart';
 import 'provider/app_data.dart';
 import 'package:provider/provider.dart';
 //import 'provider/app_data.dart';
@@ -30,6 +30,10 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: const MyHomePage(title: 'Contador Flutter'),
+      routes: {
+        '/list': (context) => ListContent(),
+        '/about': (context) => const About(),
+      },
     );
   }
 }
