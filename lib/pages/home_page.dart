@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 //import 'package:flutter_svg/svg.dart'; 
 
-var logger = Logger(); // Declaracion del log para poder usarlo
+var logger = Logger(
+  printer: PrettyPrinter(),
+);
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -11,9 +13,9 @@ class MyHomePage extends StatefulWidget {
 
   @override
   State<MyHomePage> createState() {
-  logger.i('createState llamado');
-  return _MyHomePageState();
-}
+    logger.i('createState llamado');
+    return _MyHomePageState();
+  }
   //State<MyHomePage> createState() => _MyHomePageState();
 }
 
@@ -46,9 +48,8 @@ class _MyHomePageState extends State<MyHomePage> {
 @override
 void initState() {
   super.initState();
-  logger.i('initState');
+  print('initState (prueba)');
 }
-
 @override
 void didChangeDependencies() {
   super.didChangeDependencies();
