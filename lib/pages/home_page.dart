@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
+import 'package:provider/provider.dart';
+import 'package:aplication_lab/provider/app_data.dart';
 //import 'package:flutter_svg/svg.dart'; 
 
 var logger = Logger(
@@ -12,6 +14,7 @@ class MyHomePage extends StatefulWidget {
   final String title;
 
   @override
+  // ignore: no_logic_in_create_state
   State<MyHomePage> createState() {
     logger.i('createState llamado');
     return _MyHomePageState();
@@ -20,23 +23,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-  void _decrementCounter() {
-    setState(() {
-      _counter--;
-    });
-  }
-  void _resetCounter() {
-    setState(() {
-      _counter=0;
-    });
-  }
   /*void _navigateByCounter() {
   if (_counter % 2 == 0) {
     Navigator.pushNamed(context, '/list');
@@ -48,7 +34,7 @@ class _MyHomePageState extends State<MyHomePage> {
 @override
 void initState() {
   super.initState();
-  print('initState (prueba)');
+  logger.i('initState');
 }
 @override
 void didChangeDependencies() {
@@ -106,7 +92,7 @@ Widget build(BuildContext context) {
                     ),
                     const SizedBox(height: 20),
                     Text(
-                      'Contador: $_counter',
+                      'Contador: ${context.watch<AppData>().counter}',
                       style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 20),
@@ -114,15 +100,15 @@ Widget build(BuildContext context) {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         ElevatedButton(
-                          onPressed: _incrementCounter,
+                          onPressed: () => context.read<AppData>().incrementCounter(),
                           child: const Text('+'),
                         ),
                         ElevatedButton(
-                          onPressed: _decrementCounter,
+                          onPressed: () => context.read<AppData>().decrementCounter(),
                           child: const Text('-'),
                         ),
                         ElevatedButton(
-                          onPressed: _resetCounter,
+                          onPressed: () => context.read<AppData>().resetCounter(),
                           child: const Text('Reset'),
                         ),
                       ],

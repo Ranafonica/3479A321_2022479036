@@ -1,17 +1,41 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+//import 'package:google_fonts/google_fonts.dart';
 import 'package:logger/logger.dart';
 import 'pages/home_page.dart';
-import 'list_content.dart';
-import 'about.dart';
+//import 'list_content.dart';
+//import 'about.dart';
+import 'provider/app_data.dart';
+import 'package:provider/provider.dart';
+//import 'provider/app_data.dart';
 var logger = Logger(); // Declaracion del log para poder usarlo
 
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => AppData(),
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Mi App',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: const MyHomePage(title: 'Contador Flutter'),
+    );
+  }
+}
+
+
+/*class MyApp extends StatelessWidget {
   const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
@@ -46,4 +70,4 @@ class MyApp extends StatelessWidget {
       },
     );
   }
-}
+)*/
