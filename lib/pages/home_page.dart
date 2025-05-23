@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
-import 'package:provider/provider.dart';
-import 'package:aplication_lab/provider/app_data.dart';
+//import 'package:provider/provider.dart';
+//import 'package:aplication_lab/provider/app_data.dart';
 //import 'package:flutter_svg/svg.dart'; 
 
 var logger = Logger(
@@ -19,7 +19,7 @@ class MyHomePage extends StatefulWidget {
     logger.i('createState llamado');
     return _MyHomePageState();
   }
-  //State<MyHomePage> createState() => _MyHomePageState();
+  //State<MyHomePage> createState() => _MyHomePageState(); //comentado por Warnings de createState
 }
 
 class _MyHomePageState extends State<MyHomePage> {
@@ -70,63 +70,35 @@ void reassemble() {
 Widget build(BuildContext context) {
   logger.i('build');
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Contador Flutter'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Card(
-          child: Center(
-            child: Card(
-              elevation: 8,
-              margin: const EdgeInsets.all(16),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const Text(
-                      'Flutter es un SDK de UI de código abierto creado por Google.',
-                      textAlign: TextAlign.center,
-                    ),
-                    const SizedBox(height: 20),
-                    Text(
-                      'Hola, ${context.watch<AppData>().userName}',
-                      style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
-                    ),
-                    const SizedBox(height: 12),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        ElevatedButton(
-                          onPressed: () => context.read<AppData>().incrementCounter(),
-                          child: const Text('+'),
-                        ),
-                        ElevatedButton(
-                          onPressed: () => context.read<AppData>().decrementCounter(),
-                          child: const Text('-'),
-                        ),
-                        ElevatedButton(
-                          onPressed: context.watch<AppData>().allowReset
-                              ? () => context.read<AppData>().resetCounter()
-                              : null,
-                          child: const Text('Reset'),
-                        ), // Esto hace que el botón quede deshabilitado automáticamente si allowReset es false.
-                      ],
-                    ),
-                    const SizedBox(height: 20),
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, '/about');
-                      },
-                      child: const Text('Ir a About'),
-                    ),
-                  ],
-                ),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            const DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.blue,
               ),
+              child: Text('Menú de navegacion'),
             ),
-          ),
+            ListTile(
+              title: const Text('Inicio'),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              title: const Text('Lista de elementos'),
+              onTap: () {
+                Navigator.pushNamed(context, '/list');
+              },
+            ),
+            ListTile(
+              title: const Text('About'),
+              onTap: () {
+                Navigator.pushNamed(context, '/about');
+              },
+            ),
+          ],
         ),
       ),
     );
