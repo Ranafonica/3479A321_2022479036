@@ -6,6 +6,7 @@ import 'list_content.dart';
 import 'about.dart';
 import 'provider/app_data.dart';
 import 'package:provider/provider.dart';
+import 'preferences_screen.dart';
 //import 'provider/app_data.dart';
 var logger = Logger(); // Declaracion del log para poder usarlo
 
@@ -33,6 +34,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/list': (context) => ListContent(),
         '/about': (context) => const About(),
+        '/prefs': (context) => const PreferencesScreen(),
       },
     );
   }

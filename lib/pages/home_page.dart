@@ -65,33 +65,42 @@ void reassemble() {
 
 @override
 Widget build(BuildContext context) {
-    return Scaffold(
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            const DrawerHeader(
-              decoration: BoxDecoration(color: Colors.blue),
-              child: Text('Menú', style: TextStyle(color: Colors.white, fontSize: 24)),
-            ),
-            ListTile(
-              title: const Text('Lista'),
-              onTap: () {
-                Navigator.pushReplacementNamed(context, '/list');
-              },
-            ),
-            ListTile(
-              title: const Text('Sobre'),
-              onTap: () {
-                Navigator.pushReplacementNamed(context, '/about');
-              },
-            ),
-          ],
-        ),
+  return Scaffold(
+    appBar: AppBar(
+      title: Text(widget.title), // Usa el título que pasaste
+    ),
+    drawer: Drawer(
+      child: ListView(
+        padding: EdgeInsets.zero,
+        children: [
+          const DrawerHeader(
+            decoration: BoxDecoration(color: Colors.blue),
+            child: Text('Menú', style: TextStyle(color: Colors.white, fontSize: 24)),
+          ),
+          ListTile(
+            title: const Text('Lista'),
+            onTap: () {
+              Navigator.pushReplacementNamed(context, '/list');
+            },
+          ),
+          ListTile(
+            title: const Text('Sobre'),
+            onTap: () {
+              Navigator.pushReplacementNamed(context, '/about');
+            },
+          ),
+          ListTile(
+            title: const Text('Preferencias'),
+            onTap: () {
+              Navigator.pushReplacementNamed(context, '/prefs');
+            },
+          ),
+        ],
       ),
-      body: const Center(
-        child: Text('Pantalla de inicio'),
-      ),
-    );
-  }
+    ),
+    body: const Center(
+      child: Text('Pantalla de inicio'),
+    ),
+  );
+}
 }
