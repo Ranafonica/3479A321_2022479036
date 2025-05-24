@@ -31,6 +31,7 @@ class MyApp extends StatelessWidget {
       ),
       home: const MyHomePage(title: 'Contador Flutter'),
       routes: {
+        '/': (context) => const MyHomePage(title: 'Contador Flutter'),
         '/list': (context) => ListContent(),
         '/about': (context) => const About(),
       },

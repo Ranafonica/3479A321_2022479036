@@ -16,10 +16,10 @@ class MyHomePage extends StatefulWidget {
   @override
   // ignore: no_logic_in_create_state
   State<MyHomePage> createState() {
-    logger.i('createState llamado');
+    //logger.i('createState llamado');    //logger quitado para evitar warnings
     return _MyHomePageState();
   }
-  //State<MyHomePage> createState() => _MyHomePageState(); //comentado por Warnings de createState
+  //State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
@@ -34,36 +34,36 @@ class _MyHomePageState extends State<MyHomePage> {
 @override
 void initState() {
   super.initState();
-  logger.i('initState');
+  //logger.i('initState');    //logger quitado para evitar warnings
 }
 @override
 void didChangeDependencies() {
   super.didChangeDependencies();
-  logger.i('didChangeDependencies');
+  //logger.i('didChangeDependencies');    //logger quitado para evitar warnings
 }
 
 @override
 void didUpdateWidget(covariant MyHomePage oldWidget) {
   super.didUpdateWidget(oldWidget);
-  logger.i('didUpdateWidget');
+  //logger.i('didUpdateWidget');    //logger quitado para evitar warnings
 }
 
 @override
 void deactivate() {
   super.deactivate();
-  logger.i('deactivate');
+  //logger.i('deactivate');   //logger quitado para evitar warnings
 }
 
 @override
 void dispose() {
   super.dispose();
-  logger.i('dispose');
+  //logger.i('dispose');    //logger quitado para evitar warnings
 }
 
 @override
 void reassemble() {
   super.reassemble();
-  logger.i('reassemble (hot reload)');
+  //logger.i('reassemble (hot reload)');    //logger quitado para evitar warnings
 }
 
 @override
@@ -75,27 +75,25 @@ Widget build(BuildContext context) {
           padding: EdgeInsets.zero,
           children: [
             const DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.blue,
-              ),
-              child: Text('Menú de navegacion'),
+              decoration: BoxDecoration(color: Colors.blue),
+              child: Text('Menú', style: TextStyle(color: Colors.white, fontSize: 24)),
             ),
             ListTile(
               title: const Text('Inicio'),
               onTap: () {
-                Navigator.pop(context);
+                Navigator.pushReplacementNamed(context, '/');
               },
             ),
             ListTile(
-              title: const Text('Lista de elementos'),
+              title: const Text('Lista'),
               onTap: () {
-                Navigator.pushNamed(context, '/list');
+                Navigator.pushReplacementNamed(context, '/list');
               },
             ),
             ListTile(
-              title: const Text('About'),
+              title: const Text('Sobre'),
               onTap: () {
-                Navigator.pushNamed(context, '/about');
+                Navigator.pushReplacementNamed(context, '/about');
               },
             ),
           ],
