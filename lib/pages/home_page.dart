@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:logger/logger.dart';
+//import 'package:logger/logger.dart';
 //import 'package:provider/provider.dart';
 //import 'package:aplication_lab/provider/app_data.dart';
 //import 'package:flutter_svg/svg.dart'; 
 
-var logger = Logger(
-  printer: PrettyPrinter(),
-);
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -68,7 +65,6 @@ void reassemble() {
 
 @override
 Widget build(BuildContext context) {
-  logger.i('build');
     return Scaffold(
       drawer: Drawer(
         child: ListView(
@@ -77,12 +73,6 @@ Widget build(BuildContext context) {
             const DrawerHeader(
               decoration: BoxDecoration(color: Colors.blue),
               child: Text('Menú', style: TextStyle(color: Colors.white, fontSize: 24)),
-            ),
-            ListTile(
-              title: const Text('Inicio'),
-              onTap: () {
-                Navigator.pushReplacementNamed(context, '/');
-              },
             ),
             ListTile(
               title: const Text('Lista'),
@@ -98,6 +88,9 @@ Widget build(BuildContext context) {
             ),
           ],
         ),
+      ),
+      body: const Center(
+        child: Text('Pantalla de inicio'),
       ),
     );
   }
