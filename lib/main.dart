@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 //import 'package:google_fonts/google_fonts.dart';
 import 'package:logger/logger.dart';
-import 'pages/home_page.dart';
-import 'list_content.dart';
-import 'about.dart';
+//import 'pages/home_page.dart';
+//import 'list_content.dart';
+//import 'about.dart';
 import 'provider/app_data.dart';
 import 'package:provider/provider.dart';
-import 'preferences_screen.dart';
+//import 'preferences_screen.dart';
 //import 'provider/app_data.dart';
+//import 'package:flutter/material.dart';
+import 'main_screen.dart';
 var logger = Logger(); // Declaracion del log para poder usarlo
 
 
@@ -30,12 +32,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Contador Flutter'),
-      routes: {
-        '/list': (context) => ListContent(),
-        '/about': (context) => const About(),
-        '/prefs': (context) => const PreferencesScreen(),
-      },
+      home: const MainScreen(),
     );
   }
 }
