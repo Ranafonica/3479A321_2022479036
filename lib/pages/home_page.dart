@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
-//import 'package:logger/logger.dart';
-//import 'package:provider/provider.dart';
-//import 'package:aplication_lab/provider/app_data.dart';
-//import 'package:flutter_svg/svg.dart'; 
-
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -11,67 +7,109 @@ class MyHomePage extends StatefulWidget {
   final String title;
 
   @override
-  // ignore: no_logic_in_create_state
-  State<MyHomePage> createState() {
-    //logger.i('createState llamado');    //logger quitado para evitar warnings
-    return _MyHomePageState();
-  }
-  //State<MyHomePage> createState() => _MyHomePageState();
+  State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  /*void _navigateByCounter() {
-  if (_counter % 2 == 0) {
-    Navigator.pushNamed(context, '/list');
-  } else {
-    Navigator.pushNamed(context, '/about');
+  int _counter = 0;
+  String _userName = '';
+  bool _allowReset = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadPreferences();
   }
-}*/
 
-@override
-void initState() {
-  super.initState();
-  //logger.i('initState');    //logger quitado para evitar warnings
-}
-@override
-void didChangeDependencies() {
-  super.didChangeDependencies();
-  //logger.i('didChangeDependencies');    //logger quitado para evitar warnings
-}
+  Future<void> _loadPreferences() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _userName = prefs.getString('userName') ?? '';
+      _allowReset = prefs.getBool('allowReset') ?? true;
+    });
+  }
 
-@override
-void didUpdateWidget(covariant MyHomePage oldWidget) {
-  super.didUpdateWidget(oldWidget);
-  //logger.i('didUpdateWidget');    //logger quitado para evitar warnings
-}
+  void _incrementCounter() {
+    setState(() {
+      _counter++;
+    });
+  }
 
-@override
-void deactivate() {
-  super.deactivate();
-  //logger.i('deactivate');   //logger quitado para evitar warnings
-}
+  void _decrementCounter() {
+    setState(() {
+      _counter--;
+    });
+  }
 
-@override
-void dispose() {
-  super.dispose();
-  //logger.i('dispose');    //logger quitado para evitar warnings
-}
+  void _resetCounter() {
+    setState(() {
+      _counter = 0;
+    });
+  }
 
-@override
-void reassemble() {
-  super.reassemble();
-  //logger.i('reassemble (hot reload)');    //logger quitado para evitar warnings
-}
-
-@override
-Widget build(BuildContext context) {
-  return Scaffold(
-    appBar: AppBar(
-      title: Text(widget.title), // Usa el título que pasaste
-    ),
-    body: const Center(
-      child: Text('Pantalla de inicio'),
-    ),
-  );
-}
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Card(
+          child: Center(
+            child: Card(
+              elevation: 8,
+              margin: const EdgeInsets.all(16),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      'Hola, $_userName',
+                      style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    const Text(
+                      'Flutter es un SDK de UI de código abierto creado por Google.',
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 20),
+                    Text(
+                      'Contador: $_counter',
+                      style: const TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        ElevatedButton(
+                          onPressed: _incrementCounter,
+                          child: const Text('+'),
+                        ),
+                        ElevatedButton(
+                          onPressed: _decrementCounter,
+                          child: const Text('-'),
+                        ),
+                        ElevatedButton(
+                          onPressed: _allowReset ? _resetCounter : null,
+                          child: const Text('Reset'),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 }
