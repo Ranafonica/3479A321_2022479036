@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+/*import 'package:flutter/material.dart';
 import 'provider/app_data.dart';
 import 'package:provider/provider.dart';
 
@@ -52,4 +52,21 @@ class About extends StatelessWidget {
     );
   }
 
+}*/
+import 'package:flutter/material.dart';
+
+class About extends StatelessWidget {
+  const About({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Scaffold(
+      body: Center(
+        child: Text(
+          'Sobre la aplicación',
+          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+        ),
+      ),
+    );
+  }
 }
