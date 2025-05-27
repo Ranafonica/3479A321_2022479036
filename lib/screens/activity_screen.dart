@@ -19,6 +19,7 @@ class _ActivityScreenState extends State<ActivityScreen> {
   }
 
   Future<void> _loadActividades() async {
+    // print("Cargando actividades..."); // Solo si necesitas depurar
     final data = await DatabaseHelper.instance.getActividades();
     setState(() {
       _actividades = data;
@@ -33,18 +34,20 @@ class _ActivityScreenState extends State<ActivityScreen> {
       context: context,
       builder: (_) => AlertDialog(
         title: const Text('Nueva Actividad'),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            TextField(
-              controller: nombreController,
-              decoration: const InputDecoration(labelText: 'Nombre'),
-            ),
-            TextField(
-              controller: descripcionController,
-              decoration: const InputDecoration(labelText: 'Descripción'),
-            ),
-          ],
+        content: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: nombreController,
+                decoration: const InputDecoration(labelText: 'Nombre'),
+              ),
+              TextField(
+                controller: descripcionController,
+                decoration: const InputDecoration(labelText: 'Descripción'),
+              ),
+            ],
+          ),
         ),
         actions: [
           TextButton(
@@ -56,7 +59,7 @@ class _ActivityScreenState extends State<ActivityScreen> {
               if (nueva.nombre.isNotEmpty && nueva.descripcion.isNotEmpty) {
                 await DatabaseHelper.instance.insertActividad(nueva);
                 Navigator.pop(context);
-                _loadActividades(); // recarga la lista
+                _loadActividades(); // ✅ Solo recarga después de insertar
               }
             },
             child: const Text('Guardar'),
@@ -68,29 +71,32 @@ class _ActivityScreenState extends State<ActivityScreen> {
 
   Future<void> _deleteActividad(int id) async {
     await DatabaseHelper.instance.deleteActividad(id);
-    _loadActividades();
+    _loadActividades(); // ✅ Solo recarga después de eliminar
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Actividades')),
-      body: ListView.builder(
-        itemCount: _actividades.length,
-        itemBuilder: (_, index) {
-          final act = _actividades[index];
-          return ListTile(
-            title: Text(act.nombre),
-            subtitle: Text(act.descripcion),
-            trailing: IconButton(
-              icon: const Icon(Icons.delete),
-              onPressed: () => _deleteActividad(act.id!),
+      body: _actividades.isEmpty
+          ? const Center(child: Text('No hay actividades registradas.'))
+          : ListView.builder(
+              itemCount: _actividades.length,
+              itemBuilder: (_, index) {
+                final act = _actividades[index];
+                return ListTile(
+                  title: Text(act.nombre),
+                  subtitle: Text(act.descripcion),
+                  trailing: IconButton(
+                    icon: const Icon(Icons.delete),
+                    onPressed: () => _deleteActividad(act.id!),
+                  ),
+                );
+              },
             ),
-          );
-        },
-      ),
       floatingActionButton: FloatingActionButton(
         onPressed: _addActividad,
+        tooltip: 'Agregar Actividad',
         child: const Icon(Icons.add),
       ),
     );

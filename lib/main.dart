@@ -10,10 +10,20 @@ import 'package:provider/provider.dart';
 //import 'provider/app_data.dart';
 //import 'package:flutter/material.dart';
 import 'main_screen.dart';
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 var logger = Logger(); // Declaracion del log para poder usarlo
 
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // ✅ Inicializa SQLite para escritorio
+  sqfliteFfiInit();
+  databaseFactory = databaseFactoryFfi;
+
+  // (Solo si estás eliminando la BD temporalmente)
+  // await DatabaseHelper.instance.deleteDatabaseFile();
+
   runApp(
     ChangeNotifierProvider(
       create: (context) => AppData(),
