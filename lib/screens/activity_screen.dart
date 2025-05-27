@@ -1,103 +1,101 @@
 import 'package:flutter/material.dart';
-import '../db/database_helper.dart';
 import '../models/actividad.dart';
+import '../db/database_helper.dart';
 
-class ActivityScreen extends StatefulWidget {
-  const ActivityScreen({super.key});
-
+class ActividadesScreen extends StatefulWidget {
   @override
-  State<ActivityScreen> createState() => _ActivityScreenState();
+  _ActividadesScreenState createState() => _ActividadesScreenState();
 }
 
-class _ActivityScreenState extends State<ActivityScreen> {
+class _ActividadesScreenState extends State<ActividadesScreen> {
   List<Actividad> _actividades = [];
+  final TextEditingController _nombreController = TextEditingController();
+  final TextEditingController _descripcionController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    _loadActividades();
+    _cargarActividades();
   }
 
-  Future<void> _loadActividades() async {
-    // print("Cargando actividades..."); // Solo si necesitas depurar
-    final data = await DatabaseHelper.instance.getActividades();
+  void _cargarActividades() async {
+    List<Actividad> actividades = await DatabaseHelper().getActivities();
     setState(() {
-      _actividades = data;
+      _actividades = actividades;
     });
   }
 
-  Future<void> _addActividad() async {
-    final nombreController = TextEditingController();
-    final descripcionController = TextEditingController();
+  void _guardarActividad() async {
+    String nombre = _nombreController.text;
+    String descripcion = _descripcionController.text;
 
-    await showDialog(
+    if (nombre.isNotEmpty && descripcion.isNotEmpty) {
+      Actividad nuevaActividad = Actividad(
+        nombre: nombre,
+        descripcion: descripcion,
+      );
+
+      await DatabaseHelper().insertActivity(nuevaActividad);
+      _nombreController.clear();
+      _descripcionController.clear();
+      Navigator.of(context).pop();
+      _cargarActividades();
+    }
+  }
+
+  void _mostrarDialogoAgregarActividad() {
+    showDialog(
       context: context,
-      builder: (_) => AlertDialog(
-        title: const Text('Nueva Actividad'),
-        content: SingleChildScrollView(
-          child: Column(
+      builder: (context) {
+        return AlertDialog(
+          title: Text("Nueva Actividad"),
+          content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               TextField(
-                controller: nombreController,
-                decoration: const InputDecoration(labelText: 'Nombre'),
+                controller: _nombreController,
+                decoration: InputDecoration(labelText: 'Nombre'),
               ),
               TextField(
-                controller: descripcionController,
-                decoration: const InputDecoration(labelText: 'Descripción'),
+                controller: _descripcionController,
+                decoration: InputDecoration(labelText: 'Descripción'),
               ),
             ],
           ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () async {
-              final nueva = Actividad(
-                nombre: nombreController.text.trim(),
-                descripcion: descripcionController.text.trim(),
-              );
-              if (nueva.nombre.isNotEmpty && nueva.descripcion.isNotEmpty) {
-                await DatabaseHelper.instance.insertActividad(nueva);
-                Navigator.pop(context);
-                _loadActividades(); // ✅ Solo recarga después de insertar
-              }
-            },
-            child: const Text('Guardar'),
-          ),
-        ],
-      ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                _guardarActividad();
+              },
+              child: Text('Guardar'),
+            ),
+          ],
+        );
+      },
     );
-  }
-
-  Future<void> _deleteActividad(int id) async {
-    await DatabaseHelper.instance.deleteActividad(id);
-    _loadActividades(); // ✅ Solo recarga después de eliminar
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Actividades')),
+      appBar: AppBar(
+        title: Text('Actividades'),
+      ),
       body: _actividades.isEmpty
-          ? const Center(child: Text('No hay actividades registradas.'))
+          ? Center(child: Text('No hay actividades registradas.'))
           : ListView.builder(
               itemCount: _actividades.length,
-              itemBuilder: (_, index) {
-                final act = _actividades[index];
+              itemBuilder: (context, index) {
+                final actividad = _actividades[index];
                 return ListTile(
-                  title: Text(act.nombre),
-                  subtitle: Text(act.descripcion),
-                  trailing: IconButton(
-                    icon: const Icon(Icons.delete),
-                    onPressed: () => _deleteActividad(act.id!),
-                  ),
+                  title: Text(actividad.nombre),
+                  subtitle: Text(actividad.descripcion),
                 );
               },
             ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _addActividad,
-        tooltip: 'Agregar Actividad',
-        child: const Icon(Icons.add),
+        onPressed: _mostrarDialogoAgregarActividad,
+        child: Icon(Icons.add),
       ),
     );
   }
