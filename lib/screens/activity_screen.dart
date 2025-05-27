@@ -36,20 +36,28 @@ class _ActivityScreenState extends State<ActivityScreen> {
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            TextField(controller: nombreController, decoration: const InputDecoration(labelText: 'Nombre')),
-            TextField(controller: descripcionController, decoration: const InputDecoration(labelText: 'Descripción')),
+            TextField(
+              controller: nombreController,
+              decoration: const InputDecoration(labelText: 'Nombre'),
+            ),
+            TextField(
+              controller: descripcionController,
+              decoration: const InputDecoration(labelText: 'Descripción'),
+            ),
           ],
         ),
         actions: [
           TextButton(
             onPressed: () async {
               final nueva = Actividad(
-                nombre: nombreController.text,
-                descripcion: descripcionController.text,
+                nombre: nombreController.text.trim(),
+                descripcion: descripcionController.text.trim(),
               );
-              await DatabaseHelper.instance.insertActividad(nueva);
-              Navigator.pop(context);
-              _loadActividades();
+              if (nueva.nombre.isNotEmpty && nueva.descripcion.isNotEmpty) {
+                await DatabaseHelper.instance.insertActividad(nueva);
+                Navigator.pop(context);
+                _loadActividades(); // recarga la lista
+              }
             },
             child: const Text('Guardar'),
           ),
