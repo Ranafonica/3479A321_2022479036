@@ -74,7 +74,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                     const SizedBox(height: 20),
                     const Text(
-                      'Flutter es un SDK de UI de código abierto creado por Google.',
+                      'Flutter es un SDK de UI de código abierto.',
                       textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 20),
