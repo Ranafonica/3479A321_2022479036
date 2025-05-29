@@ -47,4 +47,25 @@ class DatabaseHelper {
       return Actividad.fromMap(maps[i]);
     });
   }
+
+  Future<int> updateActivity(Actividad actividad) async {
+    final db = await database;
+    return await db.update(
+      'actividades',
+      actividad.toMap(),
+      where: 'id = ?',
+      whereArgs: [actividad.id],
+    );
+  }
+
+  Future<int> deleteActivity(int id) async {
+    final db = await database;
+    return await db.delete(
+      'actividades',
+      where: 'id = ?',
+      whereArgs: [id],
+    );
+  }
 }
+
+

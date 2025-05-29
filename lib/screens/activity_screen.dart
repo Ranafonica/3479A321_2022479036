@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/actividad.dart';
-import '../db/database_helper.dart';
+import '../services/database_helper.dart';
 
 class ActividadesScreen extends StatefulWidget {
   @override

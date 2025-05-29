@@ -23,23 +23,7 @@ class ListContent extends StatelessWidget {
         itemBuilder: (context, index) {
           if (index == items.length) {
             return Column(
-              children: [
-                const SizedBox(height: 16),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/about');
-                  },
-                  child: const Text('Ir a About'),
-                ),
-                const SizedBox(height: 8),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: const Text('Volver'),
-                ),
-                const SizedBox(height: 16),
-              ],
+
             );
           }
           return Card(
