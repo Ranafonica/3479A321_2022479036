@@ -31,7 +31,7 @@ class MainScreen extends StatelessWidget {
             ListContent(),
             const About(),
             const PreferencesScreen(),
-            ActividadesScreen()
+            ActivityScreen()
           ],
         ),
       ),

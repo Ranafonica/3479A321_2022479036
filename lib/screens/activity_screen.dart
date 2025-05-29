@@ -2,72 +2,73 @@ import 'package:flutter/material.dart';
 import '../models/actividad.dart';
 import '../services/database_helper.dart';
 
-class ActividadesScreen extends StatefulWidget {
+class ActivityScreen extends StatefulWidget {
   @override
-  _ActividadesScreenState createState() => _ActividadesScreenState();
+  _ActivityScreenState createState() => _ActivityScreenState();
 }
 
-class _ActividadesScreenState extends State<ActividadesScreen> {
-  List<Actividad> _actividades = [];
-  final TextEditingController _nombreController = TextEditingController();
-  final TextEditingController _descripcionController = TextEditingController();
+class _ActivityScreenState extends State<ActivityScreen> {
+  List <Activity> _activities = [];
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _descriptionController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    _cargarActividades();
+    _loadActivities();
   }
 
-  void _cargarActividades() async {
-    List<Actividad> actividades = await DatabaseHelper().getActivities();
+    void _loadActivities() async {
+    List<Activity> activities = await DatabaseHelper().getActivities();
     setState(() {
-      _actividades = actividades;
+      _activities = activities;
     });
   }
+  
+  void _saveActivity() async {
+    String name = _nameController.text;
+    String description = _descriptionController.text;
 
-  void _guardarActividad() async {
-    String nombre = _nombreController.text;
-    String descripcion = _descripcionController.text;
-
-    if (nombre.isNotEmpty && descripcion.isNotEmpty) {
-      Actividad nuevaActividad = Actividad(
-        nombre: nombre,
-        descripcion: descripcion,
+    if (name.isNotEmpty && description.isNotEmpty) {
+      Activity newActivity = Activity(
+        name: name,
+        description: description,
+        date: DateTime.now().toString(),
       );
 
-      await DatabaseHelper().insertActivity(nuevaActividad);
-      _nombreController.clear();
-      _descripcionController.clear();
+      await DatabaseHelper().insertActivity(newActivity);
+      _nameController.clear();
+      _descriptionController.clear();
       Navigator.of(context).pop();
-      _cargarActividades();
+      _loadActivities();
     }
   }
 
-  void _mostrarDialogoAgregarActividad() {
+  void _showAddActivityDialog() {
     showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text("Nueva Actividad"),
+          title: Text("New Activity"),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               TextField(
-                controller: _nombreController,
-                decoration: InputDecoration(labelText: 'Nombre'),
+                controller: _nameController,
+                decoration: InputDecoration(labelText: 'Name'),
               ),
               TextField(
-                controller: _descripcionController,
-                decoration: InputDecoration(labelText: 'Descripción'),
+                controller: _descriptionController,
+                decoration: InputDecoration(labelText: 'Description'),
               ),
             ],
           ),
           actions: [
             TextButton(
               onPressed: () {
-                _guardarActividad();
+                _saveActivity();
               },
-              child: Text('Guardar'),
+              child: Text('Save'),
             ),
           ],
         );
@@ -79,22 +80,22 @@ class _ActividadesScreenState extends State<ActividadesScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Actividades'),
+        title: Text('Activities'),
       ),
-      body: _actividades.isEmpty
-          ? Center(child: Text('No hay actividades registradas.'))
+      body: _activities.isEmpty
+          ? Center(child: Text('No activities found.'))
           : ListView.builder(
-              itemCount: _actividades.length,
+              itemCount: _activities.length,
               itemBuilder: (context, index) {
-                final actividad = _actividades[index];
+                final activity = _activities[index];
                 return ListTile(
-                  title: Text(actividad.nombre),
-                  subtitle: Text(actividad.descripcion),
+                  title: Text(activity.name),
+                  subtitle: Text(activity.description),
                 );
               },
             ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _mostrarDialogoAgregarActividad,
+        onPressed: _showAddActivityDialog,
         child: Icon(Icons.add),
       ),
     );
