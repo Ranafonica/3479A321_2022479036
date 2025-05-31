@@ -27,7 +27,7 @@ class MainScreen extends StatelessWidget {
         ),
         body: TabBarView(
           children: [
-            const MyHomePage(title: 'Inicio'),
+            const HomePage(),
             ListContent(),
             const About(),
             const PreferencesScreen(),
