@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http; // paquete para http
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -11,11 +12,29 @@ class _HomePageState extends State<HomePage> {
   int _counter = 0;
   String _imageUrl = 'https://picsum.photos/250?image=11';
 
-  void _getNewImage() {
-    setState(() {
-      _counter++;
-      _imageUrl = 'https://picsum.photos/250?image=$_counter';
-    });
+  Future<void> _getNewImage() async {
+    final newCounter = _counter + 1;
+    final newImageUrl = 'https://picsum.photos/250?image=$newCounter';
+
+    try {
+      final response = await http.get(Uri.parse(newImageUrl));
+      if (response.statusCode == 200) {
+        setState(() {
+          _counter = newCounter;
+          _imageUrl = newImageUrl;
+        });
+      } else {
+        if (!mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('La imagen no está disponible.')),
+        );
+      }
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Error de conexión o URL inválida.')),
+      );
+    }
   }
 
   @override
@@ -28,14 +47,17 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.network(_imageUrl,
-              width: 300,
-              height: 300,
+            Image.network(
+              _imageUrl.isNotEmpty ? _imageUrl : '',
+              width: 250,
+              height: 250,
               fit: BoxFit.cover,
               errorBuilder: (context, error, stackTrace) {
-                return const Text(
-                  'Error al cargar la imagen. Verifique su conexión.',
-                  style: TextStyle(color: Colors.red),
+                return const Center(
+                  child: Text(
+                    'Error tras cargar imágen',
+                    style: TextStyle(color: Colors.red),
+                  ),
                 );
               },
             ),
