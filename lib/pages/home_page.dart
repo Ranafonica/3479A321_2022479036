@@ -24,18 +24,21 @@ class _HomePageState extends State<HomePage> {
           _imageUrl = newImageUrl;
         });
       } else {
+        setState((){
         if (!mounted) return;
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('La imagen no está disponible.')),
-        );
+          const SnackBar(content: Text('La imagen no está disponible.')));
+        });
       }
     } catch (e) {
-      if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Error de conexión o URL inválida.')),
-      );
+      setState((){
+        if (!mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Error de conexión o URL inválida.')));
+      });
     }
   }
+  
 
   @override
   Widget build(BuildContext context) {
