@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
+import 'package:aplication_lab/screens/preview_picture_screen.dart';
 
 class PictureScreen extends StatefulWidget {
   final CameraDescription camera;
@@ -33,6 +34,26 @@ class _PictureScreenState extends State<PictureScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+         onPressed: () async { 
+          try { 
+            await _initializeControllerFuture; 
+            final image = await _controller.takePicture();
+
+            if (!context.mounted) return; 
+
+            await Navigator.of(context).push( 
+              MaterialPageRoute( 
+                builder: (context) => PreviewPictureScreen( 
+                  imagePath: image.path, 
+                ), 
+              ), 
+            );
+          } catch (e) { 
+            print(e); 
+          } 
+        } 
+      ),
       appBar: AppBar(title: const Text('Vista previa de la cámara')),
       body: FutureBuilder<void>(
         future: _initializeControllerFuture,

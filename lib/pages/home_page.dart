@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http; // paquete para http
+import 'package:camera/camera.dart';
+import 'package:aplication_lab/screens/picture_screen.dart';
+
+late List<CameraDescription> cameras;
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -11,6 +15,20 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int _counter = 0;
   String _imageUrl = 'https://picsum.photos/250?image=11';
+  CameraDescription? firstCamera;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadCameras();
+  }
+
+  Future<void> _loadCameras() async {
+    cameras = await availableCameras();
+    setState(() {
+      firstCamera = cameras.first;
+    });
+  }
 
   Future<void> _getNewImage() async {
     final newCounter = _counter + 1;
@@ -71,6 +89,19 @@ class _HomePageState extends State<HomePage> {
             ),
             const SizedBox(height: 10),
             Text('Imagen #: $_counter'),
+            const SizedBox(height: 10),
+            ElevatedButton(
+              onPressed: firstCamera == null
+                  ? null
+                  : () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => PictureScreen(camera: firstCamera!),
+                        ),
+                      );
+                    },
+              child: const Text('Abrir cámara'),
+            ),
           ],
         ),
       ),
