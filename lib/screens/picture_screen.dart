@@ -52,7 +52,8 @@ class _PictureScreenState extends State<PictureScreen> {
           } catch (e) { 
             print(e); 
           } 
-        } 
+        },
+        child: const Icon(Icons.camera_alt),
       ),
       appBar: AppBar(title: const Text('Vista previa de la cámara')),
       body: FutureBuilder<void>(
