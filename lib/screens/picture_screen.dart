@@ -35,23 +35,25 @@ class _PictureScreenState extends State<PictureScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-         onPressed: () async { 
-          try { 
-            await _initializeControllerFuture; 
+        onPressed: () async {
+          try {
+            await _initializeControllerFuture;
             final image = await _controller.takePicture();
 
-            if (!context.mounted) return; 
+            if (!context.mounted) return;
 
-            await Navigator.of(context).push( 
-              MaterialPageRoute( 
-                builder: (context) => PreviewPictureScreen( 
-                  imagePath: image.path, 
-                ), 
-              ), 
+            final result = await Navigator.of(context).push<String>(
+              MaterialPageRoute(
+                builder: (context) => PreviewPictureScreen(imagePath: image.path),
+              ),
             );
-          } catch (e) { 
-            print(e); 
-          } 
+
+            if (result != null && mounted) {
+              Navigator.pop(context, result);
+            }
+          } catch (e) {
+            print('Error al tomar la foto: $e');
+          }
         },
         child: const Icon(Icons.camera_alt),
       ),

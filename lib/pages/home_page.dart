@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http; // paquete para http
 import 'package:camera/camera.dart';
 import 'package:aplication_lab/screens/picture_screen.dart';
+import 'dart:io';
 
 late List<CameraDescription> cameras;
 
@@ -29,6 +30,26 @@ class _HomePageState extends State<HomePage> {
       firstCamera = cameras.first;
     });
   }
+
+  Widget _buildImageWidget() {
+  if (_imageUrl.startsWith('http')) {
+    return Image.network(
+      _imageUrl,
+      width: 250,
+      height: 250,
+      fit: BoxFit.cover,
+      errorBuilder: (context, error, stackTrace) => const Text('Error de red'),
+    );
+  } else {
+    return Image.file(
+      File(_imageUrl),
+      width: 250,
+      height: 250,
+      fit: BoxFit.cover,
+    );
+  }
+} 
+
 
   Future<void> _getNewImage() async {
     final newCounter = _counter + 1;
@@ -68,20 +89,7 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.network(
-              _imageUrl.isNotEmpty ? _imageUrl : '',
-              width: 250,
-              height: 250,
-              fit: BoxFit.cover,
-              errorBuilder: (context, error, stackTrace) {
-                return const Center(
-                  child: Text(
-                    'Error tras cargar imágen',
-                    style: TextStyle(color: Colors.red),
-                  ),
-                );
-              },
-            ),
+            _buildImageWidget(),
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: _getNewImage,
@@ -93,13 +101,19 @@ class _HomePageState extends State<HomePage> {
             ElevatedButton(
               onPressed: firstCamera == null
                   ? null
-                  : () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => PictureScreen(camera: firstCamera!),
-                        ),
-                      );
-                    },
+                  : () async {
+                  final imagePath = await Navigator.of(context).push<String>(
+                    MaterialPageRoute(
+                      builder: (context) => PictureScreen(camera: firstCamera!),
+                    ),
+                  );
+
+                  if (imagePath != null) {
+                    setState(() {
+                      _imageUrl = imagePath; // ahora guarda el path local
+                    });
+                  }
+                },
               child: const Text('Abrir cámara'),
             ),
           ],
