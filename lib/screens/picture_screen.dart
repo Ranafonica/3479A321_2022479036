@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'package:aplication_lab/screens/preview_picture_screen.dart';
+import 'package:path_provider/path_provider.dart';
+import 'dart:io';
 
 class PictureScreen extends StatefulWidget {
   final CameraDescription camera;
@@ -40,11 +42,15 @@ class _PictureScreenState extends State<PictureScreen> {
             await _initializeControllerFuture;
             final image = await _controller.takePicture();
 
+            final directory = await getApplicationDocumentsDirectory();
+            final name = '${DateTime.now().millisecondsSinceEpoch}.jpg';
+            final savedImage = await File(image.path).copy('${directory.path}/$name');
+
             if (!context.mounted) return;
 
             final result = await Navigator.of(context).push<String>(
               MaterialPageRoute(
-                builder: (context) => PreviewPictureScreen(imagePath: image.path),
+                builder: (context) => PreviewPictureScreen(imagePath: savedImage.path),
               ),
             );
 
