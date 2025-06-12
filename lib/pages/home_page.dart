@@ -78,49 +78,64 @@ class _HomePageState extends State<HomePage> {
     }
   }
   
+  void _resetCounter() {
+  setState(() {
+    _counter = 0;
+    _imageUrl = 'https://picsum.photos/250?image=11';
+  });
+}
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Home - Imagen desde Internet'),
+        title: const Text('Galería de Imágenes'),
       ),
-      body: Center(
+      body: Padding(
+        padding: const EdgeInsets.all(16),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            _buildImageWidget(),
+            Card(
+              elevation: 4,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+              child: SizedBox(
+                width: double.infinity,
+                child: _buildImageWidget(),
+              ),
+            ),
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: _getNewImage,
               child: const Text('Obtener nueva imagen'),
             ),
-            const SizedBox(height: 10),
-            Text('Imagen #: $_counter'),
-            const SizedBox(height: 10),
+            ElevatedButton(
+              onPressed: _resetCounter,
+              child: const Text('Reiniciar contador'),
+            ),
             ElevatedButton(
               onPressed: firstCamera == null
                   ? null
-                  : () async {
-                  final imagePath = await Navigator.of(context).push<String>(
-                    MaterialPageRoute(
-                      builder: (context) => PictureScreen(camera: firstCamera!),
-                    ),
-                  );
-
-                  if (imagePath != null) {
-                    setState(() {
-                      _imageUrl = imagePath; // ahora guarda el path local
-                    });
-                  }
-                },
+                  : () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => PictureScreen(camera: firstCamera!),
+                        ),
+                      );
+                    },
               child: const Text('Abrir cámara'),
+            ),
+            const SizedBox(height: 10),
+            Text(
+              'Imagen #: $_counter',
+              textAlign: TextAlign.center,
             ),
           ],
         ),
       ),
     );
   }
+
 }
 
 
